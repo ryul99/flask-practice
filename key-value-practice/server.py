@@ -1,4 +1,4 @@
-import time
+import time, json
 from flask import Flask, request
 app = Flask(__name__)
 
@@ -12,7 +12,7 @@ def get():
         return d[key][0]
     if key in d :
         del d[key]
-    return
+    return ''
 
 
 @app.route('/SET', methods = ['POST'])
@@ -25,9 +25,9 @@ def set():
 
 
 @app.route('/EXPIRE', methods = ['POST'])
-def expire(key, seconds):
+def expire():
     j = request.json
     key = j['key']
     seconds = j['seconds']
-    d[key][1] = time.time() + seconds
-    return
+    d[key][1] = time.time() + float(seconds)
+    return ''

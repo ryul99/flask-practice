@@ -5,7 +5,8 @@ while True:
     i = input().strip().split()
     if i[0] == 'GET':
         d = {'key': i[1]}
-        requests.get(url+i[0], data=json.dumps(d))
+        r = requests.get(url+i[0], json=d)
+        print(r.text)
     else:
         d = dict()
         d['key'] = i[1]
@@ -13,4 +14,4 @@ while True:
             d['value'] = i[2]
         else:
             d['seconds'] = i[2]
-        requests.post(url+i[0], data=json.dumps(d))
+        requests.post(url+i[0], json=d)
