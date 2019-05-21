@@ -1,8 +1,21 @@
-import time, json
+import time, json, signal
 from flask import Flask, request
-app = Flask(__name__)
-
 d = dict()
+app = Flask(__name__)
+try:
+    with open("record.txt", 'r') as fr:
+        d = json.loads(fr.readline())
+except:
+    ''
+
+
+def signal_handler(signal, frame):
+    with open("record.txt", 'w') as fw:
+        fw.write(json.dumps(d))
+    quit()
+signal.signal(signal.SIGINT, signal_handler)
+signal.signal(signal.SIGTERM, signal_handler)
+
 
 @app.route('/GET', methods = ['GET'])
 def get():
